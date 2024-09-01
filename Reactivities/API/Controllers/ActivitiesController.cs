@@ -1,4 +1,7 @@
+using Application;
+using Application.Activities;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -8,17 +11,12 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseAPIController
     {
-        private readonly DataContext _context;
-        public ActivitiesController(DataContext context)
-        {
-            _context = context;
-        }
-
-        //Get api activities 
+             
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {
-          return  await _context.Activities.ToListAsync();
+             return await Mediator.Send(new List.Query());
+            // return await _mediator.Send(new List.Query) 
 
         }
 
@@ -28,7 +26,8 @@ namespace API.Controllers
              
          public async Task<ActionResult<Activity>> GetActivity(Guid id)
         {
-           return await _context.Activities.FindAsync(id);
+             return await Mediator.Send(new Details.Query{Id=id});
+         
     }
       
 }
