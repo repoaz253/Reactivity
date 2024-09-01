@@ -1,4 +1,5 @@
 using Application.Activities;
+using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -29,6 +31,9 @@ builder.Services.AddCors(opt=>
     });
 });
 builder.Services.AddMediatR(config=> config.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
+
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
 
 var app = builder.Build();
 
