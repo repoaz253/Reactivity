@@ -53,7 +53,7 @@ namespace API.Controllers
        public async Task<IActionResult> DeleteActivity(Guid id)
        {
         await Mediator.Send(new Delete.Command{Id = id});
-          return Ok();
+        return Ok();
        }
 
 }
