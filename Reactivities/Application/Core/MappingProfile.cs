@@ -16,5 +16,3 @@ namespace Application.Core
   }
   
 }
-
-new
