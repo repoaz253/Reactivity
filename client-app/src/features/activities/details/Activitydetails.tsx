@@ -5,14 +5,12 @@ import { observer } from "mobx-react-lite";
 
 
 
-function Activitydetails()
+export default observer(function Activitydetails()
 {
   const {activityStore} = UseStore();
-  const {selectedActivity : activity} = activityStore;
+  const {selectedActivity : activity , formOpen , cancelActivity } = activityStore;
 
-if(!activity) {
-  return;
-}
+if(!activity)  return;
     return (
         <Card fluid>
     <Image src={`/assets/categoryImages/${activity.category}.jpg`} alt={activity.category}/>
@@ -27,14 +25,11 @@ if(!activity) {
     </CardContent>
     <CardContent extra>
     <Button.Group widths ='2'>
-    <Button onClick={()=>activityStore.FormOpen(activity.id) }basic color='blue' content='Edit'/>
-      <Button onClick={activityStore.cancelActivity} basic color='grey' content='Cancel' />
+    <Button onClick = {() => formOpen(activity.id)} basic color='blue' content='Edit'/>
+      <Button onClick = {() => cancelActivity} basic color='grey' content='Cancel' />
      
     </Button.Group>
     </CardContent>
   </Card>
     )
-}
-
-
-export default observer(Activitydetails);
+})

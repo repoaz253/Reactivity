@@ -1,5 +1,4 @@
 import { createContext, useContext } from "react";
-import { Activity } from "../models/activity";
 import ActivityStore from "./activitystores";
 
 

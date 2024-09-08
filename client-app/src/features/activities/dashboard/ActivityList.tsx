@@ -1,9 +1,9 @@
 import { Button, Item, Label, List, Segment } from "semantic-ui-react";
 import { SyntheticEvent, useState } from "react";
 import { UseStore } from "../../../app/stores/stores";
+import { observer } from "mobx-react-lite";
 
-
-export default function ActivityList()
+ function ActivityList()
     {
         const {activityStore} = UseStore();
         
@@ -53,3 +53,4 @@ export default function ActivityList()
         )
 
     }
+    export default observer(ActivityList);

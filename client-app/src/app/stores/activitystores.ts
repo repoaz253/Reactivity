@@ -1,13 +1,12 @@
-import { makeAutoObservable, makeObservable , observable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { Activity } from "../models/activity";
 import agent from "../api/agent";
 import { v4 as uuid } from "uuid";
-import { UPDATE } from "mobx/dist/internal";
 
 export default class ActivityStore {
    activities : Activity[] = [];
    selectedActivity: Activity | undefined = undefined;
-   EditMode = false ;
+   editMode = false ;
    loading = false ;
    loadingInitial = false ;
 
@@ -46,23 +45,24 @@ setloadingInitial = (state: boolean) =>
        this.loadingInitial = state;
     }
 
-     selectActivity = (id: string) =>
+     selectActivity = (id: string | undefined) =>
      {
-        this.selectedActivity = this.activities.find((activity)=>activity.id === id);
+        this.selectedActivity = this.activities.find((a)=>a.id === id);
      }
+
      cancelActivity = () =>
      {
         this.selectedActivity = undefined;
      }
 
-    FormOpen = (id?: string) =>{
+    formOpen = (id?: string) =>{
         id ?  this.selectActivity(id) : this.cancelActivity();
-       this.EditMode = true;
+       this.editMode = true;
     }
 
-   FormClose = () =>
+   formClose = () =>
    {
-    this.EditMode = false;
+    this.editMode = false;
    }
 
    createActivity = async (activity:Activity) => {
@@ -75,7 +75,7 @@ setloadingInitial = (state: boolean) =>
             
          this.activities = [...this.activities , activity];
          this.selectedActivity = activity;
-         this.EditMode = false;
+         this.editMode = false;
          this.loading = false;
         
         })
@@ -98,12 +98,14 @@ setloadingInitial = (state: boolean) =>
        this.loading = true;
        try{
        
-        await agent.Activities.update(activity)
+        await agent.Activities.update(activity);
         runInAction(()=>
         {
             this.activities = ([...this.activities.filter(x => x.id !== activity.id) , activity]);
+            this.selectedActivity = activity;
+            this.editMode = false ;
             this.loading = false;
-            this.EditMode = false ;
+          
         })
     
        }
@@ -120,7 +122,7 @@ setloadingInitial = (state: boolean) =>
        }
     }
 
-    deleteactivity = async (id: string) =>
+    deleteActivity = async (id: string) =>
     {
       
          this.loading = true;
@@ -129,9 +131,8 @@ setloadingInitial = (state: boolean) =>
          await agent.Activities.delete(id)
          runInAction(()=>
          {
-             this.activities = ([...this.activities.filter(x => x.id !== id)]);
+             this.activities = [...this.activities.filter(x => x.id !== id)];
              this.loading = false;
-             this.EditMode = false ;
          })
      
         }

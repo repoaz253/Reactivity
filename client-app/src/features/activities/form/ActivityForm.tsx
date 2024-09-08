@@ -1,14 +1,12 @@
 import React, { ChangeEvent, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
 import { UseStore } from "../../../app/stores/stores";
 import { observer } from "mobx-react-lite";
 
- function ActivityForm()
+export default observer(function ActivityForm()
 {
     const {activityStore} = UseStore();
-    const {FormClose : formclose} = activityStore;
-    const {selectedActivity ,updateactivity , createActivity , loading  } = activityStore;
+    const {selectedActivity ,formClose , updateactivity , createActivity , loading  } = activityStore;
 
         const initialState = selectedActivity ?? {
             id : ' ',
@@ -44,11 +42,10 @@ import { observer } from "mobx-react-lite";
             <Form.Input placeholder  = 'Date' value={activity.date} name = 'date' onChange={handleInputChange}/>
             <Form.Input placeholder  = 'City' value={activity.city} name = 'city' onChange={handleInputChange}/>
             <Form.Input placeholder  = 'Venue' value={activity.venue} name = 'venue' onChange={handleInputChange}/>
-            <Button loading ={loading} floated="right" positive type="submit" content="Submit" />
-            <Button onClick= {formclose} floated="right" type="button" content="cancel" />
+            <Button loading = {loading} floated="right" positive type="submit" content="Submit" />
+            <Button onClick= {formClose} floated="right" type="button" content="cancel" />
         </Form>
     </Segment>
     )
    
-}
-export default observer(ActivityForm);
+})
