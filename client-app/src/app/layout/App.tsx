@@ -89,12 +89,8 @@ function App() {
        
     <ActivityDashboard 
     activities={activityStore.activities}
-   
-    createoredit = {handleCreateOrEditActivity}
     deleteactivity = {handledeleteactivity}
-    submiting ={submitting}
-    
-    />
+    submiting ={submitting}/>
         
       </Container>
    

@@ -10,12 +10,11 @@ import { UseStore } from "../../../app/stores/stores";
 interface Props
 {
     activities: Activity[]; 
-    createoredit :(activity:Activity)=> void;
     deleteactivity:(id: string)=> void;
     submiting: boolean;
    
 }
- function ActivityDashboard({activities , createoredit , deleteactivity,submiting}:Props){
+ function ActivityDashboard({activities, deleteactivity,submiting}:Props){
     const {activityStore} = UseStore()
     const {selectedActivity , EditMode} = activityStore;
     return(
@@ -31,7 +30,7 @@ interface Props
               
             {EditMode && 
          
-              <ActivityForm  activity ={selectedActivity}  createoredit={createoredit} />}
+              <ActivityForm />}
            
               
             </Grid.Column>
